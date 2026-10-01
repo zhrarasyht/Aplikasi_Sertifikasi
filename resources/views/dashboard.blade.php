@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -22,16 +21,35 @@
             background: #2563eb;
             color: white;
             padding: 30px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
         }
 
-        header h1 {
+        .header-text h1 {
             margin: 0 0 12px;
             font-size: 28px;
         }
 
-        header p {
+        .header-text p {
             margin: 0;
             font-size: 15px;
+        }
+
+        .logout {
+            background: #dc2626;
+            color: white;
+            padding: 11px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .logout:hover {
+            background: #b91c1c;
         }
 
         main {
@@ -124,29 +142,24 @@
             background: #1d4ed8;
         }
 
-        .bagian-logout {
-            margin-top: 35px;
-            padding-top: 25px;
-            border-top: 1px solid #e2e8f0;
-        }
-
-        .logout {
-            background: #dc2626;
-            color: white;
-            padding: 11px 20px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .logout:hover {
-            background: #b91c1c;
-        }
-
         @media (max-width: 650px) {
             header {
-                padding: 25px;
+                padding: 25px 18px;
+                gap: 12px;
+            }
+
+            .header-text h1 {
+                font-size: 23px;
+            }
+
+            .header-text p {
+                font-size: 13px;
+                line-height: 1.5;
+            }
+
+            .logout {
+                padding: 9px 12px;
+                font-size: 13px;
             }
 
             main {
@@ -168,8 +181,15 @@
 
 <body>
     <header>
-        <h1>Dashboard</h1>
-        <p>Aplikasi Pengelolaan Data Peserta Sertifikasi</p>
+        <div class="header-text">
+            <h1>Dashboard</h1>
+            <p>Aplikasi Pengelolaan Data Peserta Sertifikasi</p>
+        </div>
+
+        <form action="{{ route('logout') }}" method="POST">
+            @csrf
+            <button type="submit" class="logout">Logout</button>
+        </form>
     </header>
 
     <main>
@@ -219,13 +239,6 @@
                 </a>
             </div>
         </section>
-
-        <div class="bagian-logout">
-            <form action="{{ route('logout') }}" method="POST">
-                @csrf
-                <button type="submit" class="logout">Logout</button>
-            </form>
-        </div>
     </main>
 </body>
 </html>
