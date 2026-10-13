@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,7 +17,16 @@
         header {
             background: #2563eb;
             color: white;
-            padding: 20px;
+            padding: 15px 20px;
+        }
+
+        header h1 {
+            font-size: 24px;
+            margin: 5px 0;
+        }
+
+        header p {
+            margin: 5px 0;
         }
 
         main {
@@ -34,7 +43,9 @@
             font-weight: bold;
         }
 
-        input, select, textarea {
+        input,
+        select,
+        textarea {
             width: 100%;
             padding: 10px;
             border: 1px solid #cbd5e1;
@@ -60,8 +71,13 @@
             cursor: pointer;
         }
 
-        .simpan { background: #2563eb; }
-        .kembali { background: #64748b; }
+        .simpan {
+            background: #2563eb;
+        }
+
+        .kembali {
+            background: #64748b;
+        }
 
         .tombol:hover {
             opacity: 0.85;
@@ -75,6 +91,7 @@
         }
     </style>
 </head>
+
 <body>
 
     <header>
@@ -86,8 +103,9 @@
         <h2>Tambah Peserta Sertifikasi</h2>
 
         @if ($errors->any())
-            <ul class="error">
+            <ul class="error"> {{-- cek kalau ada error --}}
                 @foreach ($errors->all() as $error)
+                    {{-- menampilkan semua error --}}
                     <li>{{ $error }}</li>
                 @endforeach
             </ul>
@@ -98,36 +116,36 @@
 
             <p>
                 <label>Nama Peserta</label>
-                <input type="text" name="nama_peserta"
-                    value="{{ old('nama_peserta') }}" required>
+                <input type="text" name="nama_peserta" value="{{ old('nama_peserta') }}"
+                maxlength="50" required> {{-- menampilkan input sebelumnya terus wajin di isi --}}
             </p>
 
             <p>
                 <label>NISN</label>
-                <input type="text" name="nisn"
-                    value="{{ old('nisn') }}" maxlength="10"
-                    inputmode="numeric" required>
+                <input type="text" name="nisn" value="{{ old('nisn') }}" maxlength="10" inputmode="numeric"
+                    required> {{-- input nya harus angka, wajib diisi --}}
             </p>
 
             <p>
                 <label>Jenis Kelamin</label>
-                <select name="jenis_kelamin" required>
+                <select name="jenis_kelamin" required> {{-- Pilih jenis kelamin, wajib diisi --}}
                     <option value="">-- Pilih Jenis Kelamin --</option>
-                    <option value="Laki-laki" {{ old('jenis_kelamin') == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
-                    <option value="Perempuan" {{ old('jenis_kelamin') == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
+                    <option value="Laki-laki" {{ old('jenis_kelamin') == 'Laki-laki' ? 'selected' : '' }}>Laki-laki
+                    </option>
+                    <option value="Perempuan" {{ old('jenis_kelamin') == 'Perempuan' ? 'selected' : '' }}>Perempuan
+                    </option>
                 </select>
             </p>
 
             <p>
                 <label>Email</label>
-                <input type="email" name="email"
-                    value="{{ old('email') }}">
+                <input type="email" name="email" value="{{ old('email') }}">
             </p>
 
             <p>
                 <label>Nomor Telepon</label>
-                <input type="text" name="no_telepon"
-                    value="{{ old('no_telepon') }}">
+                <input type="text" name="no_telepon" value="{{ old('no_telepon') }}"
+                maxlength="13" inputmode="numeric">
             </p>
 
             <p>
@@ -150,10 +168,10 @@
 
             <button type="submit" class="tombol simpan">Simpan Peserta</button>
 
-            <a href="{{ route('peserta.index') }}"
-                class="tombol kembali">Kembali</a>
+            <a href="{{ route('peserta.index') }}" class="tombol kembali">Kembali</a>
         </form>
     </main>
 
 </body>
+
 </html>

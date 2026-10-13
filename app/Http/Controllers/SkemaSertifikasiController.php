@@ -32,9 +32,9 @@ class SkemaSertifikasiController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'kode_skema' => 'required|unique:skema_sertifikasis,kode_skema',
+            'kode_skema' => 'required|unique:skema_sertifikasis,kode_skema', //Wajib di isi dan harus Unik
             'nama_skema' => 'required',
-            'deskripsi' => 'nullable',
+            'deskripsi' => 'nullable', //ga boleh kosong
         ]);
 
         SkemaSertifikasi::create($request->all());

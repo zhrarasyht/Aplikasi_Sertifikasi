@@ -17,7 +17,7 @@
         header {
             background: #2563eb;
             color: white;
-            padding: 20px 25px;
+            padding: 15px 20px;
         }
 
         header h2 {

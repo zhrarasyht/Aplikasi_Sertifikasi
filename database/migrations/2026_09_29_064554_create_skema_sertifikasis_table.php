@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('skema_sertifikasis', function (Blueprint $table) {
             $table->id();
-            $table->string('kode_skema')->unique();
+            $table->string('kode_skema')->unique(); //Unik
             $table->string('nama_skema');
-            $table->text('deskripsi')->nullable();
+            $table->text('deskripsi')->nullable(); //ga boleh kosong
             $table->timestamps();
         });
     }

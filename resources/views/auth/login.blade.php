@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -75,17 +75,50 @@
             font-size: 14px;
             margin-bottom: 12px;
         }
+
+        .success {
+            color: #15803d;
+            font-size: 14px;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 18px;
+            font-size: 14px;
+        }
+
+        .register-link a {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
+
 <body>
 
     <div class="login-box">
         <h2>Login Admin</h2>
-        <p class="subtitle">Aplikasi Pengelolaan Data Peserta Sertifikasi</p>
+
+        <p class="subtitle">
+            Aplikasi Pengelolaan Data Peserta Sertifikasi
+        </p>
 
         @if ($errors->any())
             <div class="error">
                 {{ $errors->first() }}
+            </div>
+        @endif
+
+        @if (session('success'))
+            <div class="success">
+                {{ session('success') }}
             </div>
         @endif
 
@@ -113,7 +146,13 @@
 
             <button type="submit">Login</button>
         </form>
+
+        <div class="register-link">
+            Belum punya akun?
+            <a href="{{ route('register') }}">Register</a>
+        </div>
     </div>
 
 </body>
+
 </html>

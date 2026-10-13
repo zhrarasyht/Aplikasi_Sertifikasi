@@ -1,3 +1,4 @@
+
 <?php
 
 use App\Http\Controllers\AuthController;
@@ -8,34 +9,50 @@ use App\Models\SkemaSertifikasi;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return redirect()->route('peserta.index');
-});
+    return view('welcome');
+})->name('welcome');
 
-//Login
-Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+// Login
+Route::get('/login', [AuthController::class, 'showLogin'])
+    ->name('login');
 
-//memproses
 Route::post('/login', [AuthController::class, 'login'])
     ->name('login.process');
 
-//Perlu login
-Route::middleware('auth')->group(function (){
+// Register
+Route::get('/register', [AuthController::class, 'showRegister'])
+    ->name('register');
 
-    //Dashboard
+Route::post('/register', [AuthController::class, 'register'])
+    ->name('register.process');
+
+// Route yang memerlukan login
+Route::middleware('auth')->group(function () {
+
+    // Dashboard Admin
     Route::get('/dashboard', function () {
         return view('dashboard', [
             'jumlahPeserta' => Peserta::count(),
             'jumlahSkema' => SkemaSertifikasi::count(),
         ]);
-    })->name('dashboard');
+    })->middleware('role:admin')->name('dashboard');
 
-    //data peserta
-    Route::resource('peserta', PesertaController::class);
+    // Dashboard User
+    Route::get('/user-dashboard', function () {
+        return view('user-dashboard');
+    })->middleware('role:user')->name('user.dashboard');
 
-    //data skema sertif
-    Route::resource('skema-sertifikasi', SkemaSertifikasiController::class);
+    // Fitur khusus Admin
+    Route::middleware('role:admin')->group(function () {
 
-    //logout
+        // Data Peserta
+        Route::resource('peserta', PesertaController::class);
+
+        // Data Skema Sertifikasi
+        Route::resource('skema-sertifikasi', SkemaSertifikasiController::class);
+    });
+
+    // Logout
     Route::post('/logout', [AuthController::class, 'logout'])
         ->name('logout');
 });

@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('alamat')->nullable();
 
             $table->foreignId('skema_sertifikasi_id')
-                ->constrained('skema_sertifikasis')
-                ->restrictOnDelete();
+                ->constrained('skema_sertifikasis') //terhubung ke tabel skema
+                ->restrictOnDelete(); //tidak bisa dihapus kalau di pakai
 
             $table->timestamps();
         });

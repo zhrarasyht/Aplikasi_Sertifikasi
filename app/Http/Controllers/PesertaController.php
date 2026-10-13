@@ -17,11 +17,11 @@ class PesertaController extends Controller
 
         if($search){
             $pesertas = Peserta::with('skemaSertifikasi')
-                ->where('nama_peserta', 'like', "%$search")
-                ->orWhere('nisn', 'like', "%$search")
-                ->get();
+                ->where('nama_peserta', 'like', "%$search%") //Cari sesuai nama peserta
+                ->orWhere('nisn', 'like', "%$search%") //atau Mencari sesuai NISN
+                ->get(); //mengambil data
         }else{
-            $pesertas = Peserta::with('skemaSertifikasi')->get();
+            $pesertas = Peserta::with('skemaSertifikasi')->get(); //Mengambil peserta + skema
         }
 
         return view('peserta.index', compact('pesertas', 'search'));
@@ -43,8 +43,9 @@ class PesertaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama_peserta' => 'required',
-            'nisn' => 'required|digits:10|unique:pesertas',
+            'nama_peserta' => 'required|string|max:50',
+            'nisn' => 'required|numeric|digits:10|unique:pesertas',
+            'no_telepon' => 'nullable|regex:/^[0-9]{1,13}$/',
             'jenis_kelamin' => 'required',
             'skema_sertifikasi_id' => 'required|exists:skema_sertifikasis,id',
         ]);
@@ -52,7 +53,7 @@ class PesertaController extends Controller
         Peserta::create($request->all());
 
         return redirect()->route('peserta.index')
-            ->with('succes', 'Data peserta berhasil ditambahkan.');
+            ->with('success', 'Data peserta berhasil ditambahkan.');
     }
 
     /**
@@ -84,8 +85,9 @@ class PesertaController extends Controller
         $peserta = Peserta::findOrFail($id);
 
         $request->validate([
-            'nama_peserta' => 'required',
-            'nisn' => 'required|digits:10|unique:pesertas,nisn,' . $peserta->id,
+            'nama_peserta' => 'required|string|max:50',
+            'nisn' => 'required|numeric|digits:10|unique:pesertas,nisn,' . $peserta->id,
+            'no_telepon' => 'nullable|regex:/^[0-9]{1,13}$/',
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
             'skema_sertifikasi_id' => 'required|exists:skema_sertifikasis,id'
         ]);

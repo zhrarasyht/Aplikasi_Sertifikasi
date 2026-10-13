@@ -93,11 +93,11 @@
         <form action="{{ route('peserta.update', $peserta->id) }}" method="POST">
             @csrf
             @method('PUT')
-            
+
             <p>
                 <label>Nama Peserta</label>
                 <input type="text" name="nama_peserta"
-                    value="{{ old('nama_peserta', $peserta->nama_peserta) }}" required>
+                    value="{{ old('nama_peserta', $peserta->nama_peserta) }}" maxlength="50" required>
             </p>
 
             <p>
@@ -128,7 +128,7 @@
 
             <p>
                 <label>Nomor Telepon</label>
-                <input type="text" name="no_telepon"
+                <input type="text" name="no_telepon" maxlength="13" inputmode="numeric"
                     value="{{ old('no_telepon', $peserta->no_telepon) }}">
             </p>
 
@@ -139,8 +139,8 @@
 
             <p>
                 <label>Skema Sertifikasi</label>
-                <select name="skema_sertifikasi_id" required>
-                    @foreach ($skemas as $skema)
+                <select name="skema_sertifikasi_id" required> {{--pilih skema sertifikasi--}}
+                    @foreach ($skemas as $skema) {{--menampilkan semua skema--}}
                         <option value="{{ $skema->id }}"
                             {{ old('skema_sertifikasi_id', $peserta->skema_sertifikasi_id) == $skema->id ? 'selected' : '' }}>
                             {{ $skema->kode_skema }} - {{ $skema->nama_skema }}

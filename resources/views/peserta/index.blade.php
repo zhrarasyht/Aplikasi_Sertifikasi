@@ -281,10 +281,10 @@
                 <tbody>
                     @forelse ($pesertas as $peserta)
                         <tr>
-                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $loop->iteration }}</td> {{--menampilkan no urut data--}}
                             <td>{{ $peserta->nama_peserta }}</td>
                             <td>{{ $peserta->nisn }}</td>
-                            <td>{{ $peserta->no_telepon ?? '-' }}</td>
+                            <td>{{ $peserta->no_telepon ?? '-' }}</td> {{--no telepon dan kalau kosong- --}}
                             <td>{{ $peserta->jenis_kelamin }}</td>
                             <td>{{ $peserta->skemaSertifikasi->nama_skema ?? '-' }}</td>
                             <td>
@@ -295,7 +295,7 @@
                                 <form action="{{ route('peserta.destroy', $peserta->id) }}" method="POST"
                                     style="display:inline;"
                                     onsubmit="return confirm('Yakin ingin menghapus peserta ini?')">
-                                    @csrf
+                                    @csrf {{--token keamanan--}}
                                     @method('DELETE')
 
                                     <button type="submit" class="tombol hapus">
