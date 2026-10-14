@@ -15,12 +15,12 @@ class PesertaController extends Controller
     {
         $search = request('search');
 
-        if($search){
+        if ($search) {
             $pesertas = Peserta::with('skemaSertifikasi')
                 ->where('nama_peserta', 'like', "%$search%") //Cari sesuai nama peserta
                 ->orWhere('nisn', 'like', "%$search%") //atau Mencari sesuai NISN
                 ->get(); //mengambil data
-        }else{
+        } else {
             $pesertas = Peserta::with('skemaSertifikasi')->get(); //Mengambil peserta + skema
         }
 
@@ -42,15 +42,17 @@ class PesertaController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'nama_peserta' => 'required|string|max:50',
-            'nisn' => 'required|numeric|digits:10|unique:pesertas',
+            'nisn' => 'required|numeric|digits:10|unique:pesertas,nisn',
+            'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
+            'email' => 'nullable|email',
             'no_telepon' => 'nullable|regex:/^[0-9]{1,13}$/',
-            'jenis_kelamin' => 'required',
+            'alamat' => 'nullable|string',
             'skema_sertifikasi_id' => 'required|exists:skema_sertifikasis,id',
         ]);
 
-        Peserta::create($request->all());
+        Peserta::create($validated);
 
         return redirect()->route('peserta.index')
             ->with('success', 'Data peserta berhasil ditambahkan.');
@@ -61,7 +63,8 @@ class PesertaController extends Controller
      */
     public function show(string $id)
     {
-        $peserta = Peserta::with('skemaSertifikasi')->findOrFail($id);
+        $peserta = Peserta::with(['skemaSertifikasi', 'user'])
+            ->findOrFail($id);
 
         return view('peserta.show', compact('peserta'));
     }
@@ -84,15 +87,17 @@ class PesertaController extends Controller
     {
         $peserta = Peserta::findOrFail($id);
 
-        $request->validate([
+        $validated = $request->validate([
             'nama_peserta' => 'required|string|max:50',
             'nisn' => 'required|numeric|digits:10|unique:pesertas,nisn,' . $peserta->id,
-            'no_telepon' => 'nullable|regex:/^[0-9]{1,13}$/',
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
-            'skema_sertifikasi_id' => 'required|exists:skema_sertifikasis,id'
+            'email' => 'nullable|email',
+            'no_telepon' => 'nullable|regex:/^[0-9]{1,13}$/',
+            'alamat' => 'nullable|string',
+            'skema_sertifikasi_id' => 'required|exists:skema_sertifikasis,id',
         ]);
 
-        $peserta->update($request->all());
+        $peserta->update($validated);
 
         return redirect()->route('peserta.index')
             ->with('success', 'Data peserta berhasil diupdate.');

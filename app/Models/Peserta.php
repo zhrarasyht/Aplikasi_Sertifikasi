@@ -10,6 +10,7 @@ class Peserta extends Model
     protected $table = 'pesertas';
 
     protected $fillable = [
+        'user_id',
         'nama_peserta',
         'nisn',
         'jenis_kelamin',
@@ -21,9 +22,11 @@ class Peserta extends Model
 
     public function skemaSertifikasi(): BelongsTo
     {
-        return $this->belongsTo(
-            SkemaSertifikasi::class,
-            'skema_sertifikasi_id'
-        );
+        return $this->belongsTo(SkemaSertifikasi::class);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

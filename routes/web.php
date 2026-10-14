@@ -1,4 +1,3 @@
-
 <?php
 
 use App\Http\Controllers\AuthController;
@@ -6,6 +5,7 @@ use App\Http\Controllers\PesertaController;
 use App\Http\Controllers\SkemaSertifikasiController;
 use App\Models\Peserta;
 use App\Models\SkemaSertifikasi;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -37,10 +37,16 @@ Route::middleware('auth')->group(function () {
         ]);
     })->middleware('role:admin')->name('dashboard');
 
+
     // Dashboard User
     Route::get('/user-dashboard', function () {
-        return view('user-dashboard');
+        $peserta = Peserta::with('skemaSertifikasi')
+            ->where('user_id', Auth::id())
+            ->first();
+
+        return view('user-dashboard', compact('peserta'));
     })->middleware('role:user')->name('user.dashboard');
+
 
     // Fitur khusus Admin
     Route::middleware('role:admin')->group(function () {
